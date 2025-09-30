@@ -1,0 +1,33 @@
+{
+  "name": "server",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "wrangler dev --local",
+    "start": "wrangler dev",
+    "build": "wrangler deploy --dry-run",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.17.1",
+  "dependencies": {
+    "hono": "^4.9.9"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250927.0",
+    "@eslint/js": "^9.36.0",
+    "@types/node": "^24.5.2",
+    "@vitest/coverage-istanbul": "^3.2.4",
+    "eslint": "^9.36.0",
+    "globals": "^16.4.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.44.1",
+    "vitest": "^3.2.4",
+    "wrangler": "^4.40.2"
+  }
+}

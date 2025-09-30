@@ -1,0 +1,3 @@
+name = "spotify-playlist-maker-api"
+main = "src/index.ts"
+compatibility_date = "2024-09-28"
