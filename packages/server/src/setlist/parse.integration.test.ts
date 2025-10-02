@@ -1,12 +1,16 @@
 import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 
 import { describe, expect, it } from 'vitest'
 
 import { parseSetlist } from './parser'
 import type { SetlistTrackBlock } from './types'
 
-const readFixture = (filename: string): string =>
-  readFileSync(new URL(`../../../../docs/${filename}`, import.meta.url), 'utf-8')
+const readFixture = (filename: string): string => {
+  const fixtureHref = new URL(`../../../../docs/${filename}`, import.meta.url).href
+  const fixturePath = fileURLToPath(fixtureHref)
+  return readFileSync(fixturePath, 'utf-8')
+}
 
 const extractTrackTitles = (blocks: SetlistTrackBlock[]): string[] =>
   blocks.map((block) => block.track.title)
