@@ -4,15 +4,41 @@ compatibility_date = "2024-09-28"
 
 [[kv_namespaces]]
 binding = "KV_NAMESPACE_OAUTH_STATES"
-id = ""
-preview_id = ""
+id = "<prod-kv-namespace-oauth-states-id>"
+preview_id = "<dev-kv-namespace-oauth-states-id>"
 
 [[kv_namespaces]]
 binding = "KV_AUTH_SESSIONS"
-id = ""
-preview_id = ""
+id = "<prod-kv-auth-sessions-id>"
+preview_id = "<dev-kv-auth-sessions-id>"
 
 [[kv_namespaces]]
 binding = "KV_SPOTIFY_TOKENS"
-id = ""
-preview_id = ""
+id = "<prod-kv-spotify-tokens-id>"
+preview_id = "<dev-kv-spotify-tokens-id>"
+
+# TODO: wrangler kv:namespace create --binding=... を実行して上記プレースホルダーを実際の ID に差し替えてください。
+
+# ----------------------
+# 非機密の環境変数（開発/プレビュー既定値）
+# 本番・プレビューの機密は wrangler secret put で登録してください。
+[vars]
+SPOTIFY_CLIENT_ID = "7f2009bbb9ee4b6faa3ae77d548e2013"
+SPOTIFY_REDIRECT_URI = "http://localhost:8787/auth/spotify/callback"
+SESSION_COOKIE_NAME = "playlist_session"
+# ローカルでは Domain は通常未指定にします（SameSite=Lax）。
+# SESSION_COOKIE_DOMAIN = "localhost"
+
+# ----------------------
+# 本番環境の非機密の環境変数（Secrets は CLI で別途登録）
+[env.production]
+[env.production.vars]
+SPOTIFY_CLIENT_ID = "<prod-spotify-client-id>"
+SPOTIFY_REDIRECT_URI = "https://<your-worker-domain>/auth/spotify/callback"
+SESSION_COOKIE_NAME = "playlist_session"
+# 自ドメイン配信の場合のみ設定。ワーカーのカスタムドメイン等に合わせる。
+# SESSION_COOKIE_DOMAIN = "yourdomain.com"
+
+# Secrets（wrangler.toml には書かない）
+#   wrangler secret put SPOTIFY_CLIENT_SECRET [--env production]
+#   wrangler secret put SESSION_CRYPTO_KEY     [--env production]

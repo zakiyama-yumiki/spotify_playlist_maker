@@ -6,6 +6,7 @@
   "description": "",
   "scripts": {
     "dev": "wrangler dev --local",
+    "dev:persist": "wrangler dev --local --persist-to .wrangler/state",
     "start": "wrangler dev",
     "build": "wrangler deploy --dry-run",
     "typecheck": "tsc --noEmit",
