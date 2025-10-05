@@ -1,23 +1,24 @@
 import { Hono } from 'hono'
 
-type AuthBindings = {
+type SpotifyAuthBindings = {
   SPOTIFY_CLIENT_ID: string
   SPOTIFY_REDIRECT_URI: string
   KV_NAMESPACE_OAUTH_STATES: KVNamespace
 }
 
-type AuthorizeRequest = {
-  redirectPath?: unknown
-}
-
 type StoredAuthorizeState = {
   codeVerifier: string
-  redirectPath: string | null
+  redirectPath: string
   scope: string
   createdAt: string
 }
 
-const SCOPES = ['playlist-modify-private', 'playlist-modify-public'] as const
+const SCOPES = [
+  'playlist-modify-private',
+  'playlist-modify-public',
+  'offline_access',
+  'user-read-email',
+] as const
 
 const toBase64 = (input: Uint8Array): string => {
   if (typeof Buffer !== 'undefined') {
@@ -63,9 +64,9 @@ const normalizeRedirectPath = (value: unknown): string | null => {
 }
 
 export const createAuthRouter = () => {
-  const router = new Hono<{ Bindings: AuthBindings }>()
+  const router = new Hono<{ Bindings: SpotifyAuthBindings }>()
 
-  router.post('/authorize', async (c) => {
+  router.get('/connect', async (c) => {
     const scope = SCOPES.join(' ')
 
     const clientId = c.env.SPOTIFY_CLIENT_ID
@@ -74,17 +75,7 @@ export const createAuthRouter = () => {
       return c.json({ error: 'server_not_configured' }, 500)
     }
 
-    let body: AuthorizeRequest = {}
-    if (c.req.header('content-type')?.includes('application/json')) {
-      try {
-        body = await c.req.json<AuthorizeRequest>()
-      } catch (error) {
-        console.error('authorize body parse failed', error)
-        return c.json({ error: 'invalid_body' }, 400)
-      }
-    }
-
-    const redirectPath = normalizeRedirectPath(body.redirectPath)
+    const redirectPath = normalizeRedirectPath(c.req.query('redirectPath')) ?? '/'
 
     const state = randomBase64Url(32)
     const codeVerifier = randomBase64Url(64)
@@ -123,12 +114,12 @@ export const createAuthRouter = () => {
     })
 
     const authorizeUrl = `https://accounts.spotify.com/authorize?${params.toString()}`
-    return c.json({ authorizeUrl })
+    return c.redirect(authorizeUrl, 302)
   })
 
   return router
 }
 
-export type { AuthBindings }
+export type { SpotifyAuthBindings }
 
 export default createAuthRouter()

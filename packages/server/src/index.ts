@@ -1,9 +1,9 @@
 import { Hono } from 'hono'
-import authRouter, { type AuthBindings } from './api/auth/router'
+import spotifyAuthRouter, { type SpotifyAuthBindings } from './spotify/router'
 
-const app = new Hono<{ Bindings: AuthBindings }>()
+const app = new Hono<{ Bindings: SpotifyAuthBindings }>()
 
-app.route('/api/auth', authRouter)
+app.route('/api/spotify', spotifyAuthRouter)
 
 app.get('/health', (c) => {
   console.log('SPOTIFY_CLIENT_ID:', c.env.SPOTIFY_CLIENT_ID)
