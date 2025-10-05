@@ -1,3 +1,18 @@
 name = "spotify-playlist-maker-api"
 main = "src/index.ts"
 compatibility_date = "2024-09-28"
+
+[[kv_namespaces]]
+binding = "KV_NAMESPACE_OAUTH_STATES"
+id = ""
+preview_id = ""
+
+[[kv_namespaces]]
+binding = "KV_AUTH_SESSIONS"
+id = ""
+preview_id = ""
+
+[[kv_namespaces]]
+binding = "KV_SPOTIFY_TOKENS"
+id = ""
+preview_id = ""
