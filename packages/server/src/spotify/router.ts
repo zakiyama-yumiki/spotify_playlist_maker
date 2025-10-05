@@ -24,7 +24,6 @@ import { TOKEN_REFRESH_THRESHOLD_SECONDS, buildApiUrl, spotifyApiFetch } from '.
 const SCOPES = [
   'playlist-modify-private',
   'playlist-modify-public',
-  'offline_access',
   'user-read-email',
 ] as const
 

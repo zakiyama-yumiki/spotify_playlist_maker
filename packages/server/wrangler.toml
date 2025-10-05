@@ -24,7 +24,7 @@ preview_id = "<dev-kv-spotify-tokens-id>"
 # 本番・プレビューの機密は wrangler secret put で登録してください。
 [vars]
 SPOTIFY_CLIENT_ID = "7f2009bbb9ee4b6faa3ae77d548e2013"
-SPOTIFY_REDIRECT_URI = "http://localhost:8787/auth/spotify/callback"
+SPOTIFY_REDIRECT_URI = "http://127.0.0.1:8787/auth/spotify/callback"
 SESSION_COOKIE_NAME = "playlist_session"
 # ローカルでは Domain は通常未指定にします（SameSite=Lax）。
 # SESSION_COOKIE_DOMAIN = "localhost"
